@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+#app-container {
+  border: 1px solid black;
+  text-align: center;
+  padding: 10px;
+}
+
+/* BreakSessionSet styling */
+#set-timers-container {
+  display: flex;
+  padding: 10px;
+}
+#set-timers-container > div {
+  border: 1px solid red;
+  padding: 10px;
+  margin-left: 5px;
+}
+
+/* CountDownTimer styling */
+#countdown-container {
+  border: 1px solid green;
+  padding: 5px;
+  margin: 5px;
+}
+#timer-controls {
+  border: 1px solid purple;
+  padding: 5px;
+  margin: 5px;
+}
