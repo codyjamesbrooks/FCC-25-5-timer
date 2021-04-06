@@ -11,31 +11,35 @@ class BreakSessionSet extends React.Component {
       <div id="set-timers-container">
         <div id="break">
           <h3 id="break-label">Set Break Length</h3>
-          <FontAwesomeIcon
+          <button
             id="break-increment"
-            icon={faChevronUp}
             onClick={(number) => this.props.handleBreakSet(1)}
-          />
+          >
+            <FontAwesomeIcon icon={faChevronUp} />
+          </button>
           <h4 id="break-length">{this.props.break}</h4>
-          <FontAwesomeIcon
+          <button
             id="break-decrement"
-            icon={faChevronDown}
             onClick={(number) => this.props.handleBreakSet(-1)}
-          />
+          >
+            <FontAwesomeIcon icon={faChevronDown} />
+          </button>
         </div>
         <div id="session">
           <h3 id="session-label">Set Session Length</h3>
-          <FontAwesomeIcon
+          <button
             id="session-increment"
-            icon={faChevronUp}
             onClick={(number) => this.props.handleSessionSet(1)}
-          />
+          >
+            <FontAwesomeIcon icon={faChevronUp} />
+          </button>
           <h4 id="session-length">{this.props.session}</h4>
-          <FontAwesomeIcon
+          <button
             id="session-decrement"
-            icon={faChevronDown}
             onClick={(number) => this.props.handleSessionSet(-1)}
-          />
+          >
+            <FontAwesomeIcon icon={faChevronDown} />
+          </button>
         </div>
       </div>
     );
