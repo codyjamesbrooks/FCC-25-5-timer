@@ -8,28 +8,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class CountDownTimer extends React.Component {
   render() {
-    let sessionTimeRemaining = this.props.session * 60;
-    let breakTimeRemaining = this.props.breakTime * 60;
-    const decreaseTimer = (timeRemaining) => {
-      --timeRemaining;
-    };
-
-    let decreaseTimeLeft = () => {
-      while (this.state.timeRunningFlag && sessionTimeRemaining > 0) {
-        setInterval(decreaseTimer(sessionTimeRemaining), 1000);
-      }
-    };
+    let displayTime = this.props.session * 60;
     return (
       <div>
         <div id="countdown-container">
-          <h2 id="timer-label">Count Down</h2>
+          <h2 id="timer-label">{this.props.displayLabel} time left</h2>
           <h1 id="time-left">
-            {Math.floor(sessionTimeRemaining / 60).toLocaleString("en-US", {
+            {Math.floor(displayTime / 60).toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,
             })}
             :
-            {(sessionTimeRemaining % 60).toLocaleString("en-US", {
+            {(displayTime % 60).toLocaleString("en-US", {
               minimumIntegerDigits: 2,
               useGrouping: false,
             })}

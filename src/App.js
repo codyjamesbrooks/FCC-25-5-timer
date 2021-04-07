@@ -11,6 +11,7 @@ class App extends React.Component {
       break: 5,
       session: 25,
       timerRunningFlag: false,
+      displayLabel: "Session",
     };
     this.handleBreakSet = this.handleBreakSet.bind(this);
     this.handleSessionSet = this.handleSessionSet.bind(this);
@@ -42,6 +43,7 @@ class App extends React.Component {
     this.setState({
       break: 5,
       session: 25,
+      timerRunningFlag: false,
     });
   }
   handleStartTimerClick() {
@@ -62,6 +64,7 @@ class App extends React.Component {
           session={this.state.session}
           break={this.state.break}
           timerRunningFlag={this.state.timerRunningFlag}
+          displayLabel={this.state.displayLabel}
           handleResetClick={this.handleResetClick}
           handleStartTimerClick={this.handleStartTimerClick}
         />

@@ -1,0 +1,21 @@
+Ok so I had an idea, But I don't have enough time to implament it. 
+So I am going to type out notes and steps for the plan. 
+Currently I have:
+    App = Class Component 
+      - BreakSession Set = Class Component
+        - Two Divs allowing for setting of state vars break and session
+      - CountDownTimer = Class Component
+        - Two Divs one for the timer display with a Dynamically rendered label
+          and the other with some timer controls. 
+
+I am going to restructure everything to look like this. 
+    App = Class Component 
+        - State Variables: break, session, timerRunningFlag, lableValue
+      <BreakSessionSet /> = Class Component
+        - Two Divs allowing for setting of state vars break and session
+      <label>Dynamically rendered label</label>
+      <TimerDisplay /> = Functional component.
+        - Rerender every second using setInterval. Triped into running using timerRunningFlag
+        - set up similar to tick() function on 'https://reactjs.org/docs/state-and-lifecycle.html' 
+      <TimerControsl> = Class Component 
+        - Set up pretty similar as before. just strip out the display element. 
