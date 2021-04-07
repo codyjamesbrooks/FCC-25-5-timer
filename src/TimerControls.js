@@ -10,7 +10,14 @@ class TimerControls extends React.Component {
   render() {
     return (
       <div id="timer-controls">
-        <button id="start_stop" onClick={this.props.handleStartTimerClick}>
+        <button
+          id="start_stop"
+          onClick={
+            this.props.timerRunningFlag
+              ? this.props.stopSessionCountdown
+              : this.props.startSessionCountdown
+          }
+        >
           {this.props.timerRunningFlag ? (
             <FontAwesomeIcon icon={faPause} />
           ) : (

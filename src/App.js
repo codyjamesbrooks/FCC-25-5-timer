@@ -17,7 +17,45 @@ class App extends React.Component {
     this.handleBreakSet = this.handleBreakSet.bind(this);
     this.handleSessionSet = this.handleSessionSet.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
-    this.handleStartTimerClick = this.handleStartTimerClick.bind(this);
+    // functions to manage session countdown
+    this.decreaseSessionTimeLeft = this.decreaseSessionTimeLeft.bind(this);
+    this.startSessionCountdown = this.startSessionCountdown.bind(this);
+    this.stopSessionCountdown = this.stopSessionCountdown.bind(this);
+    // function to manage break countdown
+    this.decreaseBreakTimeLeft = this.decreaseBreakTimeLeft.bind(this);
+    this.startBreakCountdown = this.startBreakCountdown.bind(this);
+    this.stopBreakCountdown = this.stopBreakCountdown.bind(this);
+  }
+  decreaseSessionTimeLeft() {
+    if (this.state.sessionTimeLeft) {
+      this.setState((state) => ({
+        sessionTimeLeft: --state.sessionTimeLeft,
+      }));
+    }
+  }
+  startSessionCountdown() {
+    this.countDown = setInterval(this.decreaseSessionTimeLeft, 1000);
+    this.setState({ timerRunningFlag: true });
+  }
+  stopSessionCountdown() {
+    clearInterval(this.countDown);
+    this.setState({ timerRunningFlag: false });
+  }
+
+  decreaseBreakTimeLeft() {
+    if (this.state.breakTimeLeft) {
+      this.setState((state) => ({
+        breakTimeLeft: --state.breakTimeLeft,
+      }));
+    }
+  }
+  startBreakCountdown() {
+    this.countDown = setInterval(this.decreaseBreakTimeLeft, 1000);
+    this.setState({ timerRunningflag: true });
+  }
+  stopBreakCountdown() {
+    clearInterval(this.countDown);
+    this.setState({ timerRunningFlag: false });
   }
 
   handleBreakSet(number) {
@@ -42,7 +80,11 @@ class App extends React.Component {
       }));
     }
   }
+
   handleResetClick() {
+    if (this.countDown) {
+      clearInterval(this.countDown);
+    }
     this.setState({
       break: 5,
       breakTimeLeft: 300,
@@ -50,9 +92,6 @@ class App extends React.Component {
       sessionTimeLeft: 1500,
       timerRunningFlag: false,
     });
-  }
-  handleStartTimerClick() {
-    this.setState((state) => ({ timerRunningFlag: !state.timerRunningFlag }));
   }
 
   render() {
@@ -93,7 +132,8 @@ class App extends React.Component {
         <TimerControls
           timerRunningFlag={this.state.timerRunningFlag}
           handleResetClick={this.handleResetClick}
-          handleStartTimerClick={this.handleStartTimerClick}
+          startSessionCountdown={this.startSessionCountdown}
+          stopSessionCountdown={this.stopSessionCountdown}
         />
       </div>
     );
