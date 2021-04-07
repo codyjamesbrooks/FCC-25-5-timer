@@ -2,16 +2,17 @@ import React from "react";
 import "./App.css";
 
 import BreakSessionSet from "./BreakSessionSet";
-import CountDownTimer from "./CountDownTimer";
+import TimerControls from "./TimerControls";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       break: 5,
+      breakTimeLeft: 300,
       session: 25,
+      sessionTimeLeft: 1500,
       timerRunningFlag: false,
-      displayLabel: "Session",
     };
     this.handleBreakSet = this.handleBreakSet.bind(this);
     this.handleSessionSet = this.handleSessionSet.bind(this);
@@ -26,6 +27,7 @@ class App extends React.Component {
     ) {
       this.setState((state) => ({
         break: Math.min(60, state.break + number),
+        breakTimeLeft: Math.min(3600, state.breakTimeLeft + number * 60),
       }));
     }
   }
@@ -36,13 +38,16 @@ class App extends React.Component {
     ) {
       this.setState((state) => ({
         session: Math.min(60, state.session + number),
+        sessionTimeLeft: Math.min(3600, state.sessionTimeLeft + number * 60),
       }));
     }
   }
   handleResetClick() {
     this.setState({
       break: 5,
+      breakTimeLeft: 300,
       session: 25,
+      sessionTimeLeft: 1500,
       timerRunningFlag: false,
     });
   }
@@ -51,6 +56,19 @@ class App extends React.Component {
   }
 
   render() {
+    let sessionMinutes = Math.floor(
+      this.state.sessionTimeLeft / 60
+    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+    let sessionSeconds = Math.floor(
+      this.state.sessionTimeLeft % 60
+    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+    let breakMinutes = Math.floor(
+      this.state.breakTimeLeft / 60
+    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+    let breakSeconds = Math.floor(
+      this.state.breakTimeLeft % 60
+    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+
     return (
       <div id="app-container">
         <h1>25 + 5 Clock</h1>
@@ -60,11 +78,20 @@ class App extends React.Component {
           handleBreakSet={this.handleBreakSet}
           handleSessionSet={this.handleSessionSet}
         />
-        <CountDownTimer
-          session={this.state.session}
-          break={this.state.break}
+        <div id="countdown-container">
+          {this.state.sessionTimeLeft ? (
+            <h2 id="timer-label">Session time left</h2>
+          ) : (
+            <h2 id="timer-label">Break time left</h2>
+          )}
+          <h1 id="time-left">
+            {this.state.sessionTimeLeft
+              ? `${sessionMinutes}:${sessionSeconds}`
+              : `${breakMinutes}:${breakSeconds}`}
+          </h1>
+        </div>
+        <TimerControls
           timerRunningFlag={this.state.timerRunningFlag}
-          displayLabel={this.state.displayLabel}
           handleResetClick={this.handleResetClick}
           handleStartTimerClick={this.handleStartTimerClick}
         />
