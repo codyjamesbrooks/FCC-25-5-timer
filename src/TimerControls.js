@@ -14,8 +14,8 @@ class TimerControls extends React.Component {
           id="start_stop"
           onClick={
             this.props.timerRunningFlag
-              ? this.props.stopSessionCountdown
-              : this.props.startSessionCountdown
+              ? this.props.stopCountdown
+              : this.props.startCountdown
           }
         >
           {this.props.timerRunningFlag ? (

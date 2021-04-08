@@ -9,51 +9,43 @@ class App extends React.Component {
     super(props);
     this.state = {
       break: 5,
-      breakTimeLeft: 300,
       session: 25,
-      sessionTimeLeft: 1500,
+      displayTime: 1500,
+      label: "Session",
       timerRunningFlag: false,
     };
     this.handleBreakSet = this.handleBreakSet.bind(this);
     this.handleSessionSet = this.handleSessionSet.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
-    // functions to manage session countdown
-    this.decreaseSessionTimeLeft = this.decreaseSessionTimeLeft.bind(this);
-    this.startSessionCountdown = this.startSessionCountdown.bind(this);
-    this.stopSessionCountdown = this.stopSessionCountdown.bind(this);
-    // function to manage break countdown
-    this.decreaseBreakTimeLeft = this.decreaseBreakTimeLeft.bind(this);
-    this.startBreakCountdown = this.startBreakCountdown.bind(this);
-    this.stopBreakCountdown = this.stopBreakCountdown.bind(this);
-  }
-  decreaseSessionTimeLeft() {
-    if (this.state.sessionTimeLeft) {
-      this.setState((state) => ({
-        sessionTimeLeft: --state.sessionTimeLeft,
-      }));
-    }
-  }
-  startSessionCountdown() {
-    this.countDown = setInterval(this.decreaseSessionTimeLeft, 1000);
-    this.setState({ timerRunningFlag: true });
-  }
-  stopSessionCountdown() {
-    clearInterval(this.countDown);
-    this.setState({ timerRunningFlag: false });
+
+    // functions to manage timer countdown
+    this.decreaseDisplayTimeLeft = this.decreaseDisplayTimeLeft.bind(this);
+    this.startCountdown = this.startCountdown.bind(this);
+    this.stopCountdown = this.stopCountdown.bind(this);
   }
 
-  decreaseBreakTimeLeft() {
-    if (this.state.breakTimeLeft) {
+  decreaseDisplayTimeLeft() {
+    if (this.state.displayTime === 0 && this.state.label === "Session") {
       this.setState((state) => ({
-        breakTimeLeft: --state.breakTimeLeft,
+        displayTime: state.break * 60,
+        label: "Break",
+      }));
+    } else if (this.state.displayTime === 0 && this.state.label === "Break") {
+      this.setState((state) => ({
+        displayTime: state.session * 60,
+        label: "Session",
+      }));
+    } else {
+      this.setState((state) => ({
+        displayTime: --state.displayTime,
       }));
     }
   }
-  startBreakCountdown() {
-    this.countDown = setInterval(this.decreaseBreakTimeLeft, 1000);
-    this.setState({ timerRunningflag: true });
+  startCountdown() {
+    this.countDown = setInterval(this.decreaseDisplayTimeLeft, 1000);
+    this.setState({ timerRunningFlag: true });
   }
-  stopBreakCountdown() {
+  stopCountdown() {
     clearInterval(this.countDown);
     this.setState({ timerRunningFlag: false });
   }
@@ -65,18 +57,18 @@ class App extends React.Component {
     ) {
       this.setState((state) => ({
         break: Math.min(60, state.break + number),
-        breakTimeLeft: Math.min(3600, state.breakTimeLeft + number * 60),
       }));
     }
   }
   handleSessionSet(number) {
     if (
-      (this.state.session > 1 || number > 0) &&
+      this.state.session + number >= 1 &&
+      this.state.session + number <= 60 &&
       this.state.timerRunningFlag === false
     ) {
       this.setState((state) => ({
-        session: Math.min(60, state.session + number),
-        sessionTimeLeft: Math.min(3600, state.sessionTimeLeft + number * 60),
+        session: state.session + number,
+        displayTime: state.displayTime + number * 60,
       }));
     }
   }
@@ -87,26 +79,20 @@ class App extends React.Component {
     }
     this.setState({
       break: 5,
-      breakTimeLeft: 300,
       session: 25,
-      sessionTimeLeft: 1500,
+      displayTime: 1500,
+      label: "Session",
       timerRunningFlag: false,
     });
   }
 
   render() {
-    let sessionMinutes = Math.floor(
-      this.state.sessionTimeLeft / 60
-    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
-    let sessionSeconds = Math.floor(
-      this.state.sessionTimeLeft % 60
-    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
-    let breakMinutes = Math.floor(
-      this.state.breakTimeLeft / 60
-    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
-    let breakSeconds = Math.floor(
-      this.state.breakTimeLeft % 60
-    ).toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
+    let displayMinutes = Math.floor(
+      this.state.displayTime / 60
+    ).toLocaleString("en-US", { minimumIntegerDigits: 2 });
+    let displaySeconds = (this.state.displayTime % 60).toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
 
     return (
       <div id="app-container">
@@ -118,22 +104,14 @@ class App extends React.Component {
           handleSessionSet={this.handleSessionSet}
         />
         <div id="countdown-container">
-          {this.state.sessionTimeLeft ? (
-            <h2 id="timer-label">Session time left</h2>
-          ) : (
-            <h2 id="timer-label">Break time left</h2>
-          )}
-          <h1 id="time-left">
-            {this.state.sessionTimeLeft
-              ? `${sessionMinutes}:${sessionSeconds}`
-              : `${breakMinutes}:${breakSeconds}`}
-          </h1>
+          <h2 id="timer-label">{this.state.label} time left</h2>
+          <h1 id="time-left">{`${displayMinutes}:${displaySeconds}`}</h1>
         </div>
         <TimerControls
           timerRunningFlag={this.state.timerRunningFlag}
           handleResetClick={this.handleResetClick}
-          startSessionCountdown={this.startSessionCountdown}
-          stopSessionCountdown={this.stopSessionCountdown}
+          startCountdown={this.startCountdown}
+          stopCountdown={this.stopCountdown}
         />
       </div>
     );
