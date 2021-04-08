@@ -9,6 +9,7 @@ class BreakSessionSet extends React.Component {
   render() {
     return (
       <div id="set-timers-container">
+        {/* -------Element to set Break Length ------------ */}
         <div id="break">
           <h3 id="break-label">Break Length</h3>
           <button
@@ -25,6 +26,7 @@ class BreakSessionSet extends React.Component {
             <FontAwesomeIcon icon={faChevronDown} size="2x" />
           </button>
         </div>
+        {/* -------Element to set Session Length ------------ */}
         <div id="session">
           <h3 id="session-label">Session Length</h3>
           <button

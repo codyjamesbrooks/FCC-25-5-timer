@@ -10,6 +10,8 @@ class TimerControls extends React.Component {
   render() {
     return (
       <div id="timer-controls">
+        {/*----------------------- Start/Stop Button ---------------------------*/}
+        {/* OnClick and display conditionaly rendered based on timerRunningFlag */}
         <button
           id="start_stop"
           onClick={
@@ -24,6 +26,7 @@ class TimerControls extends React.Component {
             <FontAwesomeIcon icon={faPlay} size="2x" />
           )}
         </button>
+        {/* --------------------- Timer reset Button ---------------------------*/}
         <button id="reset" onClick={this.props.handleResetClick}>
           <FontAwesomeIcon icon={faSyncAlt} size="2x" />
         </button>
