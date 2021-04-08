@@ -23,14 +23,17 @@ class App extends React.Component {
     this.startCountdown = this.startCountdown.bind(this);
     this.stopCountdown = this.stopCountdown.bind(this);
   }
-
   decreaseDisplayTimeLeft() {
     if (this.state.displayTime === 0 && this.state.label === "Session") {
+      let sound = document.getElementById("beep");
+      sound.play();
       this.setState((state) => ({
         displayTime: state.break * 60,
         label: "Break",
       }));
     } else if (this.state.displayTime === 0 && this.state.label === "Break") {
+      let sound = document.getElementById("beep");
+      sound.play();
       this.setState((state) => ({
         displayTime: state.session * 60,
         label: "Session",
@@ -77,6 +80,8 @@ class App extends React.Component {
     if (this.countDown) {
       clearInterval(this.countDown);
     }
+    let sound = document.getElementById("beep");
+    sound.load();
     this.setState({
       break: 5,
       session: 25,
@@ -96,7 +101,10 @@ class App extends React.Component {
 
     return (
       <div id="app-container">
-        <h1>25 + 5 Clock</h1>
+        <div id="title">
+          <h1 id="app-name">25 + 5 Clock</h1>
+          <h6 id="author">coded by cody</h6>
+        </div>
         <BreakSessionSet
           break={this.state.break}
           session={this.state.session}
@@ -112,6 +120,10 @@ class App extends React.Component {
           handleResetClick={this.handleResetClick}
           startCountdown={this.startCountdown}
           stopCountdown={this.stopCountdown}
+        />
+        <audio
+          id="beep"
+          src="https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
         />
       </div>
     );

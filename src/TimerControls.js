@@ -19,13 +19,13 @@ class TimerControls extends React.Component {
           }
         >
           {this.props.timerRunningFlag ? (
-            <FontAwesomeIcon icon={faPause} />
+            <FontAwesomeIcon icon={faPause} size="2x" />
           ) : (
-            <FontAwesomeIcon icon={faPlay} />
+            <FontAwesomeIcon icon={faPlay} size="2x" />
           )}
         </button>
         <button id="reset" onClick={this.props.handleResetClick}>
-          <FontAwesomeIcon icon={faSyncAlt} />
+          <FontAwesomeIcon icon={faSyncAlt} size="2x" />
         </button>
       </div>
     );
