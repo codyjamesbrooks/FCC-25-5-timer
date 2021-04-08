@@ -21,14 +21,16 @@ class App extends React.Component {
 
     // functions to manage timer countdown
     this.decreaseDisplayTime = this.decreaseDisplayTime.bind(this);
-    this.switchBetweenSessionBreak = this.switchBetweenSessionBreak.bind(this);
+    this.switchBetweenSessionAndBreak = this.switchBetweenSessionAndBreak.bind(
+      this
+    );
 
     // functions to handle timer control buttons.
-    this.startCountdown = this.startCountdown.bind(this);
-    this.stopCountdown = this.stopCountdown.bind(this);
+    this.handleStartClick = this.handleStartClick.bind(this);
+    this.handleStopClick = this.handleStopClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
   }
-  switchBetweenSessionBreak() {
+  switchBetweenSessionAndBreak() {
     // when the display timer reaches zero this function is called and manages the transation
     // from a session to a break. Changes the timer label, Resets the display time
     if (this.state.label === "Session") {
@@ -53,16 +55,16 @@ class App extends React.Component {
     } else {
       let sound = document.getElementById("beep");
       sound.play();
-      this.switchBetweenSessionBreak();
+      this.switchBetweenSessionAndBreak();
     }
   }
-  startCountdown() {
+  handleStartClick() {
     // Create an interval element that calls decreaseDisplayTime every 1000ms
     // then updates the timerRunningFlag to indicated that the timer is running
     this.countDown = setInterval(this.decreaseDisplayTime, 1000);
     this.setState({ timerRunningFlag: true });
   }
-  stopCountdown() {
+  handleStopClick() {
     // Destroys the interval element stopping DisplayTime from decreasing.
     // then updates the timerRunningFlag to indicated that the timer is stopped
     clearInterval(this.countDown);
@@ -144,8 +146,8 @@ class App extends React.Component {
         <TimerControls
           timerRunningFlag={this.state.timerRunningFlag}
           handleResetClick={this.handleResetClick}
-          startCountdown={this.startCountdown}
-          stopCountdown={this.stopCountdown}
+          handleStartClick={this.handleStartClick}
+          handleStopClick={this.handleStopClick}
         />
         <audio
           id="beep"
