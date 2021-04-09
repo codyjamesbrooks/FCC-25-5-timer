@@ -21,9 +21,6 @@ class App extends React.Component {
 
     // functions to manage timer countdown
     this.decreaseDisplayTime = this.decreaseDisplayTime.bind(this);
-    this.switchBetweenSessionAndBreak = this.switchBetweenSessionAndBreak.bind(
-      this
-    );
 
     // functions to handle timer control buttons.
     this.handleStartClick = this.handleStartClick.bind(this);
